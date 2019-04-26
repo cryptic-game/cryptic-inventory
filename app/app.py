@@ -1,7 +1,8 @@
-from resources.property import handle, handle_ms
 from cryptic import MicroService
 
+m = MicroService(name='inventory')
 
 if __name__ == '__main__':
-    m = MicroService('service', handle, handle_ms)
+    import resources.inventory
+
     m.run()

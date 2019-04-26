@@ -1,16 +1,19 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.engine.base import Engine
-from config import config
+from cryptic import MicroService, setup_database, get_config, Config
+import argparse
 
+parser: argparse.ArgumentParser = argparse.ArgumentParser()
 
-uri: str = 'sqlite:///' + config["storage_location"]
+parser.add_argument('--debug', help='run this service with sqlite instead of mysql only for use in develop environment',
+                    default=False, action='store_true')
 
-engine: Engine = create_engine(uri)
+args: argparse.Namespace = parser.parse_args()
 
-Session = sessionmaker(bind=engine)
+if args.debug is True:
 
-session: Session = Session()
+    config: Config = get_config(mode="debug")
 
-Base = declarative_base()
+else:
+
+    config: Config = get_config(mode="prod")
+
+engine, Base, session = setup_database()

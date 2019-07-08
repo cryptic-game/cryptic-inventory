@@ -1,22 +1,24 @@
-from app import m
+from app import m, wrapper
 from typing import List, Union
 from models.Inventory import Inventory
-from objects import *
-from scheme import *
 
 
-@m.user_endpoint(path=["list_inventory"], requires={"user": Text(required=True, nonempy=True)})
+@m.user_endpoint(path=["list_inventory"], requires={})
 def list_inventory(data: dict, user: str):
-    query: List[Inventory] = session.query(Inventory).filter_by(owner=user)
+    query: List[Inventory] = wrapper.session.query(Inventory).filter_by(owner=user)
 
-    inventory: List[List[Union[str, any]]] = [[element.element_name, element.element_uuid] for element in query]
+    inventory: List[List[Union[str, any]]] = [
+        [element.element_name, element.element_uuid] for element in query
+    ]
 
     return {"elements": inventory}
 
 
 @m.microservice_endpoint(path=["exist"])
 def handle_ms(data: dict, microservice: str):
-    query = session.query(Inventory).filter_by(owner=data["owner"], element_name=data["name"])
+    query = wrapper.session.query(Inventory).filter_by(
+        owner=data["owner"], element_name=data["name"]
+    )
 
     if query is None:
         return {"exist": False}
@@ -25,10 +27,12 @@ def handle_ms(data: dict, microservice: str):
 
 @m.microservice_endpoint(path=["remove"])
 def remove(data: dict, microservice: str):
-    query: Inventory = session.query(Inventory).filter_by(element_uuid=data["uuid"])
+    query: Inventory = wrapper.session.query(Inventory).filter_by(
+        element_uuid=data["uuid"]
+    )
 
-    session.delete(query)
-    session.commit()
+    wrapper.session.delete(query)
+    wrapper.session.commit()
 
     return {"ok": True}
 

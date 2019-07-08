@@ -8,6 +8,7 @@ SQLAlchemy = "*"
 PyMySQL = "*"
 gunicorn = "*"
 cryptic-game = "*"
+scheme = "*"
 
 [dev-packages]
 

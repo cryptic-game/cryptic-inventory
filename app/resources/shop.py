@@ -22,9 +22,7 @@ def pay_shop(wallet: str, key: str, amount: int) -> dict:
     )
 
 
-m.user_endpoint(path=["shop", "list"], requires={})
-
-
+@m.user_endpoint(path=["shop", "list"], requires={})
 def _shop_list(data: dict, user: str):
 
     products: List[str] = game_info["items"].key()
@@ -32,9 +30,7 @@ def _shop_list(data: dict, user: str):
     return {"products": products}
 
 
-m.user_endpoint(path=["shop", "info"], requires=shop_info)
-
-
+@m.user_endpoint(path=["shop", "info"], requires=shop_info)
 def _shop_info(data: dict, user: str):
 
     if not data["product"] in game_info["items"].key():
@@ -43,9 +39,7 @@ def _shop_info(data: dict, user: str):
     return {"name": data["product"], "info": game_info["items"][data["product"]]}
 
 
-m.user_endpoint(path=["shop", "buy"], requires=shop_buy)
-
-
+@m.user_endpoint(path=["shop", "buy"], requires=shop_buy)
 def _shop_buy(data: dict, user: str):
 
     if not data["product"] in game_info["items"].key():

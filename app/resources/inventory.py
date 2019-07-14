@@ -3,7 +3,7 @@ from typing import List, Union
 from models.Inventory import Inventory
 
 
-@m.user_endpoint(path=["inventory","list_inventory"], requires={})
+@m.user_endpoint(path=["inventory", "list_inventory"], requires={})
 def list_inventory(data: dict, user: str):
     query: List[Inventory] = wrapper.session.query(Inventory).filter_by(owner=user)
 
@@ -14,7 +14,7 @@ def list_inventory(data: dict, user: str):
     return {"elements": inventory}
 
 
-@m.microservice_endpoint(path=["inventory","exist"])
+@m.microservice_endpoint(path=["inventory", "exist"])
 def handle_ms(data: dict, microservice: str):
     query = wrapper.session.query(Inventory).filter_by(
         owner=data["owner"], element_name=data["name"]
@@ -25,7 +25,7 @@ def handle_ms(data: dict, microservice: str):
     return {"exist": True}
 
 
-@m.microservice_endpoint(path=["inventory","remove"])
+@m.microservice_endpoint(path=["inventory", "remove"])
 def remove(data: dict, microservice: str):
     query: Inventory = wrapper.session.query(Inventory).filter_by(
         element_uuid=data["uuid"]
@@ -37,7 +37,7 @@ def remove(data: dict, microservice: str):
     return {"ok": True}
 
 
-@m.microservice_endpoint(path=["inventory","create"])
+@m.microservice_endpoint(path=["inventory", "create"])
 def create(data: dict, microservice: str):
     Inventory.create(data["name"], data["user"], data["service"])
 

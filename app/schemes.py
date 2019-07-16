@@ -1,16 +1,17 @@
 from scheme import Text, UUID
-from typing import Dict
 
-shop_info: dict = {"product": Text(required=True, nonempty=True)}
-
-shop_buy: dict = {
-    "wallet_uuid": UUID(),
-    "name": Text(required=True, nonempty=True),
-    "key": Text(required=True, nonempty=True),
+shop_info: dict = {
+    "product": Text(nonempty=True)
 }
 
-this_item_does_not_exists: Dict[str, str] = {"error": "this_item_does_not_exists"}
+shop_buy: dict = {
+    "product": Text(nonempty=True),
+    "wallet_uuid": UUID(),
+    "key": Text(pattern=r'^[a-f0-9]{10}$'),
+}
 
-wallet_does_not_exists: Dict[str, str] = {"error": "this_wallet_does_not_exists"}
+success: dict = {"ok": True}
 
-success: Dict[str, bool] = {"ok": True}
+item_not_found: dict = {"error": "item_not_found"}
+
+wallet_not_found: dict = {"error": "wallet_not_found"}

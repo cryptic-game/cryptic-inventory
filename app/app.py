@@ -7,9 +7,9 @@ m: MicroService = MicroService("inventory")
 wrapper: DatabaseWrapper = m.get_wrapper()
 
 if __name__ == "__main__":
-    import resources.inventory
-    import resources.shop
+    from resources.inventory import *
+    from resources.shop import *
 
     wrapper.Base.metadata.create_all(bind=wrapper.engine)
 
-m.run()
+    m.run()

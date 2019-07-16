@@ -5,8 +5,9 @@ name = "pypi"
 
 [packages]
 SQLAlchemy = "*"
+argparse = "*"
+cryptography = "*"
 PyMySQL = "*"
-gunicorn = "*"
 cryptic-game = "*"
 scheme = "*"
 
@@ -16,5 +17,5 @@ scheme = "*"
 python_version = "3.7"
 
 [scripts]
-dev = "python3 app.py"
-prod = "gunicorn --workers 4 app:create_app() --bind 0.0.0.0:80 --log-syslog --log-level DEBUG"
+dev = "python3 app.py --debug"
+prod = "python3 app.py"

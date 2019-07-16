@@ -1,64 +1,54 @@
 from app import m
-from typing import List
-from vars import config as game_info
-from schemes import (
-    this_item_does_not_exists,
-    shop_info,
-    shop_buy,
-    wallet_does_not_exists,
-)
-from models.Inventory import Inventory
+from models.inventory import Inventory
+from schemes import *
+from vars import game_info
 
 
-def check_wallet(wallet: str) -> bool:
-    return m.contact_microservice("currency", ["exists"], {"source_uuid": wallet})[
-        "exists"
-    ]
+def exists_wallet(wallet: str) -> bool:
+    return m.contact_microservice("currency", ["exists"], {"source_uuid": wallet})["exists"]
 
 
-def pay_shop(wallet: str, key: str, amount: int) -> dict:
-    return m.contact_microservice(
-        "currency", ["dump"], {"source_uuid": wallet, "key": key, "amount": amount}
-    )
+def pay_shop(wallet: str, key: str, amount: int, product: str) -> dict:
+    return m.contact_microservice("currency", ["dump"], {
+        "source_uuid": wallet, "key": key, "amount": amount, "create_transaction": True,
+        "destination_uuid": "00000000-0000-0000-0000-000000000000",
+        "usage": f"Payment for {product}", "origin": 1
+    })
 
 
 @m.user_endpoint(path=["shop", "list"], requires={})
-def _shop_list(data: dict, user: str):
-
-    products: List[str] = game_info["items"].key()
-
-    return {"products": products}
+def shop_list(data: dict, user: str):
+    return {"products": list(game_info["items"])}
 
 
 @m.user_endpoint(path=["shop", "info"], requires=shop_info)
-def _shop_info(data: dict, user: str):
+def shop_info(data: dict, user: str):
+    product: str = data["product"]
 
-    if not data["product"] in game_info["items"].key():
-        return this_item_does_not_exists
+    if product not in game_info["items"]:
+        return item_not_found
 
-    return {"name": data["product"], "info": game_info["items"][data["product"]]}
+    return {"name": product, **game_info["items"][product]}
 
 
 @m.user_endpoint(path=["shop", "buy"], requires=shop_buy)
-def _shop_buy(data: dict, user: str):
+def shop_buy(data: dict, user: str):
+    product: str = data["product"]
+    wallet_uuid: str = data["wallet_uuid"]
+    key: str = data["key"]
 
-    if not data["product"] in game_info["items"].key():
-        return this_item_does_not_exists
+    if product not in game_info["items"]:
+        return item_not_found
 
-    if not check_wallet(data["wallet_uuid"]):
-        return wallet_does_not_exists
+    if not exists_wallet(wallet_uuid):
+        return wallet_not_found
 
-    price: int = game_info["items"]["product"]["price"]
+    price: int = game_info["items"][product]["price"]
 
-    response: dict = pay_shop(data["wallet"], data["key"], price)
-
+    response: dict = pay_shop(wallet_uuid, key, price, product)
     if "error" in response:
         return response
 
-    else:
+    item: Inventory = Inventory.create(product, user, game_info["items"][product]["related_ms"])
 
-        inv: Inventory = Inventory.create(
-            data["name"], user, game_info["items"]["product"]["related_ms"]
-        )
-
-        return inv.serialize
+    return item.serialize

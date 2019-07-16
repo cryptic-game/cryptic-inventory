@@ -1,4 +1,4 @@
-config: dict = {
+game_info: dict = {
     "items": {
         "Zero MX One": {"price": 100, "related_ms": "device"},
         "graphicUnit": {"price": 100, "related_ms": "device"},

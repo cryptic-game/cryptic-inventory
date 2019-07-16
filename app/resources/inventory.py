@@ -1,44 +1,47 @@
+from typing import Optional
+
 from app import m, wrapper
-from typing import List, Union
-from models.Inventory import Inventory
+from models.inventory import Inventory
+from schemes import *
+from vars import game_info
 
 
-@m.user_endpoint(path=["inventory", "list_inventory"], requires={})
-def list_inventory(data: dict, user: str):
-    query: List[Inventory] = wrapper.session.query(Inventory).filter_by(owner=user)
-
-    inventory: List[List[Union[str, any]]] = [
-        [element.element_name, element.element_uuid] for element in query
-    ]
-
-    return {"elements": inventory}
+@m.user_endpoint(path=["inventory", "list"], requires={})
+def list_inventory(data: dict, user: str) -> dict:
+    return {"elements": [
+        element.serialize for element in
+        wrapper.session.query(Inventory).filter_by(owner=user)
+    ]}
 
 
-@m.microservice_endpoint(path=["inventory", "exist"])
-def handle_ms(data: dict, microservice: str):
-    query = wrapper.session.query(Inventory).filter_by(
+@m.microservice_endpoint(path=["inventory", "exists"])
+def exists(data: dict, microservice: str) -> dict:
+    item: Optional[Inventory] = wrapper.session.query(Inventory).filter_by(
         owner=data["owner"], element_name=data["name"]
-    )
+    ).first()
 
-    if query is None:
-        return {"exist": False}
-    return {"exist": True}
-
-
-@m.microservice_endpoint(path=["inventory", "remove"])
-def remove(data: dict, microservice: str):
-    query: Inventory = wrapper.session.query(Inventory).filter_by(
-        element_uuid=data["uuid"]
-    )
-
-    wrapper.session.delete(query)
-    wrapper.session.commit()
-
-    return {"ok": True}
+    return {"exists": item is not None}
 
 
 @m.microservice_endpoint(path=["inventory", "create"])
-def create(data: dict, microservice: str):
-    Inventory.create(data["name"], data["user"], data["service"])
+def create(data: dict, microservice: str) -> dict:
+    name: str = data["name"]
+    if name not in game_info["items"]:
+        return item_not_found
 
-    return {"ok": True}
+    item: Inventory = Inventory.create(name, data["user"], data["service"])
+
+    return item.serialize
+
+
+@m.microservice_endpoint(path=["inventory", "remove"])
+def remove(data: dict, microservice: str) -> dict:
+    item: Inventory = wrapper.session.query(Inventory).filter_by(element_uuid=data["uuid"]).first()
+
+    if item is None:
+        return item_not_found
+
+    wrapper.session.delete(item)
+    wrapper.session.commit()
+
+    return success

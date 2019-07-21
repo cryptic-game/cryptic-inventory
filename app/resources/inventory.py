@@ -11,7 +11,7 @@ def list_inventory(data: dict, user: str) -> dict:
     return {
         "elements": [
             element.serialize
-            for element in wrapper.session.query(Inventory).filter_by(owner=user).all()
+            for element in wrapper.session.query(Inventory).filter_by(owner=user)
         ]
     }
 
@@ -52,12 +52,10 @@ def remove(data: dict, microservice: str) -> dict:
 
 
 @m.microservice_endpoint(path=["inventory", "list"])
-def remove(data: dict, microservice: str) -> dict:
+def ms_list(data: dict, microservice: str) -> dict:
     return {
         "elements": [
             element.serialize
-            for element in wrapper.session.query(Inventory)
-            .filter_by(owner=data["user"])
-            .all()
+            for element in wrapper.session.query(Inventory).filter_by(owner=data["user"])
         ]
     }

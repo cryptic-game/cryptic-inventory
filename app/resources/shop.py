@@ -5,9 +5,7 @@ from vars import game_info
 
 
 def exists_wallet(wallet: str) -> bool:
-    return m.contact_microservice("currency", ["exists"], {"source_uuid": wallet})[
-        "exists"
-    ]
+    return m.contact_microservice("currency", ["exists"], {"source_uuid": wallet})["exists"]
 
 
 def pay_shop(wallet: str, key: str, amount: int, product: str) -> dict:
@@ -59,8 +57,6 @@ def shop_buy(data: dict, user: str):
     if "error" in response:
         return response
 
-    item: Inventory = Inventory.create(
-        product, user, game_info["items"][product]["related_ms"]
-    )
+    item: Inventory = Inventory.create(product, user, game_info["items"][product]["related_ms"])
 
     return item.serialize

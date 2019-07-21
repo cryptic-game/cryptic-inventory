@@ -1,2 +1,2 @@
-# cryptic-property
-Repository for property of an user.
+# cryptic-inventory
+Repository for property of a user.

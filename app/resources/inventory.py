@@ -8,10 +8,12 @@ from vars import game_info
 
 @m.user_endpoint(path=["inventory", "list"], requires={})
 def list_inventory(data: dict, user: str) -> dict:
-    return {"elements": [
-        element.serialize for element in
-        wrapper.session.query(Inventory).filter_by(owner=user)
-    ]}
+    return {
+        "elements": [
+            element.serialize
+            for element in wrapper.session.query(Inventory).filter_by(owner=user).all()
+        ]
+    }
 
 
 @m.microservice_endpoint(path=["inventory", "exists"])
@@ -36,7 +38,9 @@ def create(data: dict, microservice: str) -> dict:
 
 @m.microservice_endpoint(path=["inventory", "remove"])
 def remove(data: dict, microservice: str) -> dict:
-    item: Inventory = wrapper.session.query(Inventory).filter_by(element_uuid=data["uuid"]).first()
+    item: Inventory = wrapper.session.query(Inventory).filter_by(
+        element_uuid=data["uuid"]
+    ).first()
 
     if item is None:
         return item_not_found
@@ -45,3 +49,15 @@ def remove(data: dict, microservice: str) -> dict:
     wrapper.session.commit()
 
     return success
+
+
+@m.microservice_endpoint(path=["inventory", "list"])
+def remove(data: dict, microservice: str) -> dict:
+    return {
+        "elements": [
+            element.serialize
+            for element in wrapper.session.query(Inventory)
+            .filter_by(owner=data["user"])
+            .all()
+        ]
+    }

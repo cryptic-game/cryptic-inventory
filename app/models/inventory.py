@@ -24,7 +24,7 @@ class Inventory(wrapper.Base):
         return d
 
     @staticmethod
-    def create(name: str, owner: str, related_service: str) -> 'Inventory':
+    def create(name: str, owner: str, related_service: str) -> "Inventory":
         element_uuid: str = str(uuid4())
 
         inventory: Inventory = Inventory(

@@ -24,14 +24,11 @@ class Inventory(wrapper.Base):
         return d
 
     @staticmethod
-    def create(name: str, owner: str, related_service: str) -> 'Inventory':
+    def create(name: str, owner: str, related_service: str) -> "Inventory":
         element_uuid: str = str(uuid4())
 
         inventory: Inventory = Inventory(
-            owner=owner,
-            element_name=name,
-            element_uuid=element_uuid,
-            related_ms=related_service,
+            owner=owner, element_name=name, element_uuid=element_uuid, related_ms=related_service
         )
 
         wrapper.session.add(inventory)

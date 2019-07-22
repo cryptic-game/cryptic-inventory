@@ -9,11 +9,19 @@ def exists_wallet(wallet: str) -> bool:
 
 
 def pay_shop(wallet: str, key: str, amount: int, product: str) -> dict:
-    return m.contact_microservice("currency", ["dump"], {
-        "source_uuid": wallet, "key": key, "amount": amount, "create_transaction": True,
-        "destination_uuid": "00000000-0000-0000-0000-000000000000",
-        "usage": f"Payment for {product}", "origin": 1
-    })
+    return m.contact_microservice(
+        "currency",
+        ["dump"],
+        {
+            "source_uuid": wallet,
+            "key": key,
+            "amount": amount,
+            "create_transaction": True,
+            "destination_uuid": "00000000-0000-0000-0000-000000000000",
+            "usage": f"Payment for {product}",
+            "origin": 1,
+        },
+    )
 
 
 @m.user_endpoint(path=["shop", "list"], requires={})

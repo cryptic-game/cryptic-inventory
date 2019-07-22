@@ -8,12 +8,7 @@ from vars import game_info
 
 @m.user_endpoint(path=["inventory", "list"], requires={})
 def list_inventory(data: dict, user: str) -> dict:
-    return {
-        "elements": [
-            element.serialize
-            for element in wrapper.session.query(Inventory).filter_by(owner=user)
-        ]
-    }
+    return {"elements": [element.serialize for element in wrapper.session.query(Inventory).filter_by(owner=user)]}
 
 
 @m.microservice_endpoint(path=["inventory", "exists"])
@@ -38,9 +33,7 @@ def create(data: dict, microservice: str) -> dict:
 
 @m.microservice_endpoint(path=["inventory", "remove"])
 def remove(data: dict, microservice: str) -> dict:
-    item: Inventory = wrapper.session.query(Inventory).filter_by(
-        element_uuid=data["uuid"]
-    ).first()
+    item: Inventory = wrapper.session.query(Inventory).filter_by(element_uuid=data["uuid"]).first()
 
     if item is None:
         return item_not_found
@@ -54,20 +47,13 @@ def remove(data: dict, microservice: str) -> dict:
 @m.microservice_endpoint(path=["inventory", "list"])
 def ms_list(data: dict, microservice: str) -> dict:
     return {
-        "elements": [
-            element.serialize
-            for element in wrapper.session.query(Inventory).filter_by(
-                owner=data["user"]
-            )
-        ]
+        "elements": [element.serialize for element in wrapper.session.query(Inventory).filter_by(owner=data["user"])]
     }
 
 
 @m.microservice_endpoint(path=["inventory", "delete_by_name"])
 def delete_by_name(data: dict, microservice: str) -> dict:
-    item: Inventory = wrapper.session.query(Inventory).filter_by(
-        element_name=data["name"], owner=data["user"]
-    ).first()
+    item: Inventory = wrapper.session.query(Inventory).filter_by(element_name=data["name"], owner=data["user"]).first()
 
     if item is None:
         return item_not_found

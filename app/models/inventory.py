@@ -28,10 +28,7 @@ class Inventory(wrapper.Base):
         element_uuid: str = str(uuid4())
 
         inventory: Inventory = Inventory(
-            owner=owner,
-            element_name=name,
-            element_uuid=element_uuid,
-            related_ms=related_service,
+            owner=owner, element_name=name, element_uuid=element_uuid, related_ms=related_service
         )
 
         wrapper.session.add(inventory)

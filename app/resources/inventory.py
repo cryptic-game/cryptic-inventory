@@ -14,7 +14,7 @@ def list_inventory(data: dict, user: str) -> dict:
 @m.microservice_endpoint(path=["inventory", "exists"])
 def exists(data: dict, microservice: str) -> dict:
     item: Optional[Inventory] = wrapper.session.query(Inventory).filter_by(
-        owner=data["owner"], element_name=data["name"]
+        owner=data["owner"], element_name=data["item_name"]
     ).first()
 
     return {"exists": item is not None}
@@ -22,18 +22,18 @@ def exists(data: dict, microservice: str) -> dict:
 
 @m.microservice_endpoint(path=["inventory", "create"])
 def create(data: dict, microservice: str) -> dict:
-    name: str = data["name"]
+    name: str = data["item_name"]
     if name not in game_info["items"]:
         return item_not_found
 
-    item: Inventory = Inventory.create(name, data["user"], data["service"])
+    item: Inventory = Inventory.create(name, data["owner"], data["related_ms"])
 
     return item.serialize
 
 
 @m.microservice_endpoint(path=["inventory", "remove"])
 def remove(data: dict, microservice: str) -> dict:
-    item: Inventory = wrapper.session.query(Inventory).filter_by(element_uuid=data["uuid"]).first()
+    item: Inventory = wrapper.session.query(Inventory).filter_by(element_uuid=data["item_uuid"]).first()
 
     if item is None:
         return item_not_found
@@ -47,13 +47,14 @@ def remove(data: dict, microservice: str) -> dict:
 @m.microservice_endpoint(path=["inventory", "list"])
 def ms_list(data: dict, microservice: str) -> dict:
     return {
-        "elements": [element.serialize for element in wrapper.session.query(Inventory).filter_by(owner=data["user"])]
+        "elements": [element.serialize for element in wrapper.session.query(Inventory).filter_by(owner=data["owner"])]
     }
 
 
 @m.microservice_endpoint(path=["inventory", "delete_by_name"])
 def delete_by_name(data: dict, microservice: str) -> dict:
-    item: Inventory = wrapper.session.query(Inventory).filter_by(element_name=data["name"], owner=data["user"]).first()
+    item: Inventory = wrapper.session.query(Inventory).filter_by(element_name=data["item_name"],
+                                                                 owner=data["owner"]).first()
 
     if item is None:
         return item_not_found

@@ -6,4 +6,4 @@ install:
   - cd app/ && pipenv install --dev
 
 script:
-  - pipenv run coverage
+  - cd app/ && pipenv run coverage

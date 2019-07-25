@@ -2,12 +2,14 @@ sudo: false
 language: python
 python: 3.7
 
+before_install:
+  - cd app/
+
 install:
-  - pip install coverage
+  - pipenv install --dev
 
 before_script:
   - cd app/
 
 script:
-  - pipenv install --dev
   - pipenv run coverage

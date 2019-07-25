@@ -53,8 +53,9 @@ def ms_list(data: dict, microservice: str) -> dict:
 
 @m.microservice_endpoint(path=["inventory", "delete_by_name"])
 def delete_by_name(data: dict, microservice: str) -> dict:
-    item: Inventory = wrapper.session.query(Inventory).filter_by(element_name=data["item_name"],
-                                                                 owner=data["owner"]).first()
+    item: Inventory = wrapper.session.query(Inventory).filter_by(
+        element_name=data["item_name"], owner=data["owner"]
+    ).first()
 
     if item is None:
         return item_not_found

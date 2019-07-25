@@ -3,7 +3,6 @@ from unittest.mock import patch
 
 from mock.mock_loader import mock
 from resources import shop
-from schemes import item_not_found, wallet_not_found
 from vars import game_info
 
 
@@ -13,21 +12,32 @@ class TestShop(TestCase):
 
     def test__exists_wallet__not_found(self):
         mock.MicroService().contact_microservice.return_value = {"exists": False}
-        self.assertFalse(shop.exists_wallet("test-wallet"))
+
+        actual_result = shop.exists_wallet("test-wallet")
+
+        self.assertFalse(actual_result)
         mock.MicroService().contact_microservice.assert_called_with(
             "currency", ["exists"], {"source_uuid": "test-wallet"}
         )
 
     def test__exists_wallet__successful(self):
         mock.MicroService().contact_microservice.return_value = {"exists": True}
-        self.assertTrue(shop.exists_wallet("test-wallet"))
+
+        actual_result = shop.exists_wallet("test-wallet")
+
+        self.assertTrue(actual_result)
         mock.MicroService().contact_microservice.assert_called_with(
             "currency", ["exists"], {"source_uuid": "test-wallet"}
         )
 
     def test__pay_shop(self):
-        mock.MicroService().contact_microservice.return_value = "whatever_currency_returns"
-        self.assertEqual("whatever_currency_returns", shop.pay_shop("my-wallet", "wallet-key", 1337, "test-product"))
+        expected_result = "whatever_currency_returns"
+
+        mock.MicroService().contact_microservice.return_value = expected_result
+
+        actual_result = shop.pay_shop("my-wallet", "wallet-key", 1337, "test-product")
+
+        self.assertEqual(expected_result, actual_result)
         mock.MicroService().contact_microservice.assert_called_with(
             "currency",
             ["dump"],
@@ -43,34 +53,50 @@ class TestShop(TestCase):
         )
 
     def test__user_endpoint__shop_list(self):
-        self.assertEqual({"products": list(game_info["items"])}, shop.shop_list({}, ""))
+        expected_result = {"products": list(game_info["items"])}
+        actual_result = shop.shop_list({}, "")
+
+        self.assertEqual(expected_result, actual_result)
 
     def test__user_endpoint__shop_info__item_not_found(self):
-        self.assertEqual(item_not_found, shop.shop_info({"product": "does_not_exist"}, ""))
+        expected_result = {"error": "item_not_found"}
+        actual_result = shop.shop_info({"product": "does_not_exist"}, "")
+
+        self.assertEqual(expected_result, actual_result)
 
     def test__user_endpoint__shop_info__successful(self):
-        self.assertEqual({"name": "ATX", "price": 100, "related_ms": "device"}, shop.shop_info({"product": "ATX"}, ""))
+        expected_result = {"name": "ATX", "price": 100, "related_ms": "device"}
+        actual_result = shop.shop_info({"product": "ATX"}, "")
+
+        self.assertEqual(expected_result, actual_result)
 
     def test__user_endpoint__shop_buy__item_not_found(self):
-        self.assertEqual(item_not_found, shop.shop_buy({"product": "does-not-exist", "wallet_uuid": "", "key": ""}, ""))
+        expected_result = {"error": "item_not_found"}
+        actual_result = shop.shop_buy({"product": "does-not-exist", "wallet_uuid": "", "key": ""}, "")
+
+        self.assertEqual(expected_result, actual_result)
 
     @patch("resources.shop.exists_wallet")
     def test__user_endpoint__shop_buy__wallet_not_found(self, exists_wallet_patch):
         exists_wallet_patch.return_value = False
-        self.assertEqual(
-            wallet_not_found, shop.shop_buy({"product": "ATX", "wallet_uuid": "test-wallet", "key": "the-key"}, "")
-        )
+
+        expected_result = {"error": "wallet_not_found"}
+        actual_result = shop.shop_buy({"product": "ATX", "wallet_uuid": "test-wallet", "key": "the-key"}, "")
+
+        self.assertEqual(expected_result, actual_result)
         exists_wallet_patch.assert_called_with("test-wallet")
 
     @patch("resources.shop.pay_shop")
     @patch("resources.shop.exists_wallet")
     def test__user_endpoint__shop_buy__invalid_wallet(self, exists_wallet_patch, pay_shop_patch):
+        expected_result = {"error": "some-error", "foo": "bar"}
+
         exists_wallet_patch.return_value = True
-        pay_shop_patch.return_value = {"error": "some-error", "foo": "bar"}
-        self.assertEqual(
-            {"error": "some-error", "foo": "bar"},
-            shop.shop_buy({"product": "ATX", "wallet_uuid": "test-wallet", "key": "wallet-key"}, ""),
-        )
+        pay_shop_patch.return_value = expected_result
+
+        actual_result = shop.shop_buy({"product": "ATX", "wallet_uuid": "test-wallet", "key": "wallet-key"}, "")
+
+        self.assertEqual(expected_result, actual_result)
         pay_shop_patch.assert_called_with("test-wallet", "wallet-key", 100, "ATX")
 
     @patch("resources.shop.Inventory")
@@ -79,8 +105,9 @@ class TestShop(TestCase):
     def test__user_endpoint__shop_buy__successful(self, exists_wallet_patch, pay_shop_patch, inventory_patch):
         exists_wallet_patch.return_value = True
         pay_shop_patch.return_value = {"success": True}
-        self.assertEqual(
-            inventory_patch.create().serialize,
-            shop.shop_buy({"product": "ATX", "wallet_uuid": "wallet", "key": "key"}, "the-user"),
-        )
+
+        expected_result = inventory_patch.create().serialize
+        actual_result = shop.shop_buy({"product": "ATX", "wallet_uuid": "wallet", "key": "key"}, "the-user")
+
+        self.assertEqual(expected_result, actual_result)
         inventory_patch.create.assert_called_with("ATX", "the-user", "device")

@@ -16,28 +16,32 @@ class TestInventoryModel(TestCase):
 
     def test__model__inventory__serialize(self):
         inventory = Inventory(element_uuid="element-uuid", element_name="name", related_ms="device", owner="the-owner")
+
+        expected_result = {
+            "element_uuid": "element-uuid",
+            "element_name": "name",
+            "related_ms": "device",
+            "owner": "the-owner",
+        }
         serialized = inventory.serialize
-        self.assertEqual(
-            {"element_uuid": "element-uuid", "element_name": "name", "related_ms": "device", "owner": "the-owner"},
-            serialized,
-        )
+
+        self.assertEqual(expected_result, serialized)
+
         serialized["element_uuid"] = "something-different"
-        self.assertEqual(
-            {"element_uuid": "element-uuid", "element_name": "name", "related_ms": "device", "owner": "the-owner"},
-            inventory.serialize,
-        )
+        self.assertEqual(expected_result, inventory.serialize)
 
     def test__model__inventory__create(self):
-        result = Inventory.create("the-name", "some-user", "microservice-name")
-        self.assertIsInstance(result, Inventory)
-        self.assertEqual("the-name", result.element_name)
-        self.assertEqual("some-user", result.owner)
-        self.assertEqual("microservice-name", result.related_ms)
-        self.assertRegex(result.element_uuid, r"[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}")
-        mock.wrapper.session.add.assert_called_with(result)
+        actual_result = Inventory.create("the-name", "some-user", "microservice-name")
+
+        self.assertIsInstance(actual_result, Inventory)
+        self.assertEqual("the-name", actual_result.element_name)
+        self.assertEqual("some-user", actual_result.owner)
+        self.assertEqual("microservice-name", actual_result.related_ms)
+        self.assertRegex(actual_result.element_uuid, r"[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}")
+        mock.wrapper.session.add.assert_called_with(actual_result)
         mock.wrapper.session.commit.assert_called_with()
 
-    def test__model__inventory__create___different_uuid(self):
-        self.assertNotEqual(
-            Inventory.create("name", "owner", "ms").element_uuid, Inventory.create("name", "owner", "ms").element_uuid
-        )
+    def test__model__inventory__create__different_uuid(self):
+        first_element = Inventory.create("name", "owner", "ms").element_uuid
+        second_element = Inventory.create("name", "owner", "ms").element_uuid
+        self.assertNotEqual(first_element, second_element)

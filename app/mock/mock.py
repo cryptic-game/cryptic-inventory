@@ -1,9 +1,9 @@
 from unittest.mock import MagicMock
 
-MicroService: MagicMock = MagicMock()
-Config: MagicMock = MagicMock()
-DatabaseWrapper: MagicMock = MagicMock()
-get_config: MagicMock = MagicMock()
+MicroService = MagicMock()
+Config = MagicMock()
+DatabaseWrapper = MagicMock()
+get_config = MagicMock()
 
 m = MicroService()
 

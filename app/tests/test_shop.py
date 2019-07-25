@@ -11,21 +11,21 @@ class TestShop(TestCase):
     def setUp(self):
         mock.reset_mocks()
 
-    def test_exists_wallet_exists(self):
-        mock.MicroService().contact_microservice.return_value = {"exists": True}
-        self.assertTrue(shop.exists_wallet("test-wallet"))
-        mock.MicroService().contact_microservice.assert_called_with(
-            "currency", ["exists"], {"source_uuid": "test-wallet"}
-        )
-
-    def test_exists_wallet_not_found(self):
+    def test__exists_wallet__not_found(self):
         mock.MicroService().contact_microservice.return_value = {"exists": False}
         self.assertFalse(shop.exists_wallet("test-wallet"))
         mock.MicroService().contact_microservice.assert_called_with(
             "currency", ["exists"], {"source_uuid": "test-wallet"}
         )
 
-    def test_pay_shop(self):
+    def test__exists_wallet__successful(self):
+        mock.MicroService().contact_microservice.return_value = {"exists": True}
+        self.assertTrue(shop.exists_wallet("test-wallet"))
+        mock.MicroService().contact_microservice.assert_called_with(
+            "currency", ["exists"], {"source_uuid": "test-wallet"}
+        )
+
+    def test__pay_shop(self):
         mock.MicroService().contact_microservice.return_value = "whatever_currency_returns"
         self.assertEqual("whatever_currency_returns", shop.pay_shop("my-wallet", "wallet-key", 1337, "test-product"))
         mock.MicroService().contact_microservice.assert_called_with(
@@ -42,20 +42,20 @@ class TestShop(TestCase):
             },
         )
 
-    def test_shop_list(self):
+    def test__user_endpoint__shop_list(self):
         self.assertEqual({"products": list(game_info["items"])}, shop.shop_list({}, ""))
 
-    def test_shop_info_not_found(self):
+    def test__user_endpoint__shop_info__item_not_found(self):
         self.assertEqual(item_not_found, shop.shop_info({"product": "does_not_exist"}, ""))
 
-    def test_shop_info_found(self):
+    def test__user_endpoint__shop_info__successful(self):
         self.assertEqual({"name": "ATX", "price": 100, "related_ms": "device"}, shop.shop_info({"product": "ATX"}, ""))
 
-    def test_shop_buy_item_not_found(self):
+    def test__user_endpoint__shop_buy__item_not_found(self):
         self.assertEqual(item_not_found, shop.shop_buy({"product": "does-not-exist", "wallet_uuid": "", "key": ""}, ""))
 
     @patch("resources.shop.exists_wallet")
-    def test_shop_buy_wallet_not_found(self, exists_wallet_patch):
+    def test__user_endpoint__shop_buy__wallet_not_found(self, exists_wallet_patch):
         exists_wallet_patch.return_value = False
         self.assertEqual(
             wallet_not_found, shop.shop_buy({"product": "ATX", "wallet_uuid": "test-wallet", "key": "the-key"}, "")
@@ -64,7 +64,7 @@ class TestShop(TestCase):
 
     @patch("resources.shop.pay_shop")
     @patch("resources.shop.exists_wallet")
-    def test_shop_buy_invalid_wallet(self, exists_wallet_patch, pay_shop_patch):
+    def test__user_endpoint__shop_buy__invalid_wallet(self, exists_wallet_patch, pay_shop_patch):
         exists_wallet_patch.return_value = True
         pay_shop_patch.return_value = {"error": "some-error", "foo": "bar"}
         self.assertEqual(
@@ -76,7 +76,7 @@ class TestShop(TestCase):
     @patch("resources.shop.Inventory")
     @patch("resources.shop.pay_shop")
     @patch("resources.shop.exists_wallet")
-    def test_shop_successful(self, exists_wallet_patch, pay_shop_patch, inventory_patch):
+    def test__user_endpoint__shop_buy__successful(self, exists_wallet_patch, pay_shop_patch, inventory_patch):
         exists_wallet_patch.return_value = True
         pay_shop_patch.return_value = {"success": True}
         self.assertEqual(

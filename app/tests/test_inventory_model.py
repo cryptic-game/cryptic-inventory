@@ -8,13 +8,13 @@ class TestInventoryModel(TestCase):
     def setUp(self):
         mock.reset_mocks()
 
-    def test_structure(self):
+    def test__model__inventory__structure(self):
         self.assertEqual("Inventory", Inventory.__tablename__)
         self.assertTrue(issubclass(Inventory, mock.wrapper.Base))
         for col in ["element_uuid", "element_name", "related_ms", "owner"]:
             self.assertTrue(col in dir(Inventory))
 
-    def test_serialize(self):
+    def test__model__inventory__serialize(self):
         inventory = Inventory(element_uuid="element-uuid", element_name="name", related_ms="device", owner="the-owner")
         serialized = inventory.serialize
         self.assertEqual(
@@ -27,7 +27,7 @@ class TestInventoryModel(TestCase):
             inventory.serialize,
         )
 
-    def test_create(self):
+    def test__model__inventory__create(self):
         result = Inventory.create("the-name", "some-user", "microservice-name")
         self.assertIsInstance(result, Inventory)
         self.assertEqual("the-name", result.element_name)
@@ -37,7 +37,7 @@ class TestInventoryModel(TestCase):
         mock.wrapper.session.add.assert_called_with(result)
         mock.wrapper.session.commit.assert_called_with()
 
-    def test_create_different_uuid(self):
+    def test__model__inventory__create___different_uuid(self):
         self.assertNotEqual(
             Inventory.create("name", "owner", "ms").element_uuid, Inventory.create("name", "owner", "ms").element_uuid
         )

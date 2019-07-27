@@ -1,5 +1,11 @@
 #!/bin/sh
 
-coverage run -m unittest discover -v tests
-coverage report
-coverage erase
+if coverage run -m unittest discover -v tests
+then
+	coverage report
+	coverage erase
+else
+	coverage erase
+	exit 1
+fi
+

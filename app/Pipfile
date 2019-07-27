@@ -11,6 +11,7 @@ scheme = "*"
 
 [dev-packages]
 coverage = "*"
+coveralls = "*"
 
 [requires]
 python_version = "3.7"
@@ -18,5 +19,6 @@ python_version = "3.7"
 [scripts]
 test = "python3 -m unittest discover -v tests"
 coverage = "sh coverage.sh"
+coverage_travis = "coverage run -m unittest discover -v tests"
 dev = "python3 app.py --debug"
 prod = "python3 app.py"

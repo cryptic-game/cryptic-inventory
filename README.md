@@ -1,2 +1,2 @@
-# cryptic-inventory
+# cryptic-inventory [![Build Status](https://travis-ci.com/cryptic-game/cryptic-inventory.svg?branch=issue%2F12-add-build-status-badges)](https://travis-ci.com/cryptic-game/cryptic-inventory) [![Coverage Status](https://coveralls.io/repos/github/cryptic-game/cryptic-inventory/badge.svg?branch=issue/12-add-build-status-badges)](https://coveralls.io/github/cryptic-game/cryptic-inventory?branch=issue/12-add-build-status-badges)
 Repository for property of a user.

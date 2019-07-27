@@ -9,4 +9,7 @@ install:
   - cd app/ && pipenv install --dev
 
 script:
-  - pipenv run coverage
+  - pipenv run coverage_travis
+
+after_success:
+  - pipenv run coveralls

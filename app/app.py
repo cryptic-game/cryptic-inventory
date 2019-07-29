@@ -1,7 +1,15 @@
-from resources.property import handle, handle_ms
-from cryptic import MicroService
+from cryptic import MicroService, Config, DatabaseWrapper, get_config
 
+config: Config = get_config()  # / production
 
-if __name__ == '__main__':
-    m = MicroService('service', handle, handle_ms)
+m: MicroService = MicroService("inventory")
+
+wrapper: DatabaseWrapper = m.get_wrapper()
+
+if __name__ == "__main__":
+    from resources.inventory import *
+    from resources.shop import *
+
+    wrapper.Base.metadata.create_all(bind=wrapper.engine)
+
     m.run()

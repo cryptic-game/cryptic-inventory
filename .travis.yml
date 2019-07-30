@@ -16,6 +16,6 @@ install:
 - cd app/ && pip install pipenv && pipenv install --dev
 script:
 - pipenv run coverage_travis
-- sonar-scanner
+- sonar-scanner -X
 after_success:
 - pipenv run coveralls

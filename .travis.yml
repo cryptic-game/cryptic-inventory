@@ -15,5 +15,5 @@ addons:
 install:
 - cd app/ && pip install pipenv && pipenv install --dev
 script:
-- pipenv run coverage_travis
+- pipenv run coverage
 - cd .. && sonar-scanner

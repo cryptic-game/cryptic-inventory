@@ -17,5 +17,3 @@ install:
 script:
 - pipenv run coverage_travis
 - cd .. && sonar-scanner
-after_success:
-- pipenv run coveralls

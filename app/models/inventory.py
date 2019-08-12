@@ -7,7 +7,7 @@ from app import wrapper
 
 
 class Inventory(wrapper.Base):
-    __tablename__ = "Inventory"
+    __tablename__ = "inventory_inventory"
 
     element_uuid: Union[Column, str] = Column(String(36), primary_key=True, unique=True)
     element_name: Union[Column, str] = Column(Text())

@@ -9,7 +9,7 @@ class TestInventoryModel(TestCase):
         mock.reset_mocks()
 
     def test__model__inventory__structure(self):
-        self.assertEqual("Inventory", Inventory.__tablename__)
+        self.assertEqual("inventory_inventory", Inventory.__tablename__)
         self.assertTrue(issubclass(Inventory, mock.wrapper.Base))
         for col in ["element_uuid", "element_name", "related_ms", "owner"]:
             self.assertTrue(col in dir(Inventory))

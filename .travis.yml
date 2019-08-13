@@ -13,7 +13,7 @@ addons:
       secure: "klwq7cAdquuuzo6h6pjvquW0RaQZ9h4epMEC1tLQVJ9UjaJfYhUlNNvemySttF2xJqeG9YHgCheyT9zq1lzn/9daPif6gVpsTpKzZx6szODO0wG0Z83yUn5ycu/cv7SWH6JI0QnS1n9T6ixfNyYiX3Ux6B142/1xZNqmcP9EPLyRLphde1tnh0fwtLX1PNrlNSZ7OXvq30tP1Zmy4VfFYD3o8xGQCnEiFHdC8uzH1iS6X4ogK3bltHwd0n19MU/2p4J9VHeeiE9FRUSQ+w15VK93fNQkKRT6IfAm7Z0elzFePduW9O8VwQlXNsUOBcOuG4Ya0Qk+GhdIQySm4EveIpAuw1NCGtkVyQgN8eq/x60CYleOpRce+KhOtt4a/CUi8vEr+sIC+gKvdCcUNFUc5VoshVBJZKb4nOzjLX7mg+T+4g8v2uIazm6pXV5ruV0zTT6HWY6gMdz4vzTBKAcmSMrL6iqoCwORfKwM9laCdrWvu0sLOnwCYDW9RtpyxG/7c3QljmK6aBE2BDZ7+42jy6MP3YPIa50ZyOju0kCUdT+w+gPqS6y1QeK6cCpUSxyUFi7GgB9HnAxTGyK1/OsUpHyBZcDrfB/UENNEFf8yPvHeJLxYJkLnISIrWcpMRC4cJ10sJCYGjUwWCR/YRUXWViXqYVwLYbWuXL7QBbg1iUI="
 
 install:
-- cd app/ && pip install pipenv && pipenv install --dev
+- cd app/ && pip install pipenv && pipenv sync --dev
 script:
 - pipenv run coverage
 - cd .. && sonar-scanner

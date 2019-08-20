@@ -6,6 +6,16 @@ from schemes import *
 from vars import game_info
 
 
+@m.user_endpoint(path=["inventory", "trade"], requires={"element_uuid": UUID(), "target": UUID()})
+def trade(data: dict, user: str) -> dict:
+    element: Optional[Inventory] = wrapper.session.query(Inventory).filter_by(element_uuid=data["element_uuid"]).first()
+    if element is None or element.owner != user or element.owner == data["target"]:
+        return {"error": "item_not_found"}
+    element.owner = data["target"]
+    wrapper.session.commit()
+    return {"ok": True}
+
+
 @m.user_endpoint(path=["inventory", "list"], requires={})
 def list_inventory(data: dict, user: str) -> dict:
     return {"elements": [element.serialize for element in wrapper.session.query(Inventory).filter_by(owner=user)]}

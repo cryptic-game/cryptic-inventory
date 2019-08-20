@@ -12,6 +12,9 @@ class TestInventory(TestCase):
         self.query_inventory = mock.MagicMock()
         mock.wrapper.session.query.side_effect = {inventory.Inventory: self.query_inventory}.__getitem__
 
+    def test__user_endpoint__inventory_trade(self):
+        self.fail()
+
     def test__user_endpoint__inventory_list(self):
         elements = [mock.MagicMock() for _ in range(5)]
 

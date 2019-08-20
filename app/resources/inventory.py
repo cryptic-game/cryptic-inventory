@@ -6,7 +6,7 @@ from schemes import *
 from vars import game_info
 
 
-@m.user_endpoint(path=["inventory", "trade"], requires={"element_uuid": UUID(), "target": UUID()})
+@m.user_endpoint(path=["inventory", "trade"], requires=trade_requirements)
 def trade(data: dict, user: str) -> dict:
     element: Optional[Inventory] = wrapper.session.query(Inventory).filter_by(element_uuid=data["element_uuid"]).first()
     if element is None or element.owner != user or element.owner == data["target"]:

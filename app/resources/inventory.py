@@ -8,12 +8,17 @@ from vars import game_info
 
 @m.user_endpoint(path=["inventory", "trade"], requires=trade_requirements)
 def trade(data: dict, user: str) -> dict:
-    element: Optional[Inventory] = wrapper.session.query(Inventory).filter_by(element_uuid=data["element_uuid"]).first()
-    if element is None or element.owner != user or element.owner == data["target"]:
-        return {"error": "item_not_found"}
-    element.owner = data["target"]
+    element: Optional[Inventory] = wrapper.session.query(Inventory).get(data["element_uuid"])
+    target: Optional[str] = data["target"]
+    if element is None or element.owner != user:
+        return item_not_found
+    if element.owner == target:
+        return cannot_trade_with_yourself
+    if not m.check_user_uuid(target):
+        return user_uuid_does_not_exist
+    element.owner = target
     wrapper.session.commit()
-    return {"ok": True}
+    return success
 
 
 @m.user_endpoint(path=["inventory", "list"], requires={})

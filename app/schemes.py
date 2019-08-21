@@ -11,3 +11,8 @@ success: dict = {"ok": True}
 item_not_found: dict = {"error": "item_not_found"}
 
 wallet_not_found: dict = {"error": "wallet_not_found"}
+
+user_uuid_does_not_exist: dict = {"error": "user_uuid_does_not_exist"}
+
+cannot_trade_with_yourself: dict = {"error": "cannot_trade_with_yourself"}
+

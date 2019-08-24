@@ -3,6 +3,7 @@ from unittest.mock import patch
 
 from mock.mock_loader import mock
 from resources import inventory
+from schemes import item_not_found, cannot_trade_with_yourself, user_uuid_does_not_exist, success
 
 
 class TestInventory(TestCase):
@@ -11,6 +12,65 @@ class TestInventory(TestCase):
 
         self.query_inventory = mock.MagicMock()
         mock.wrapper.session.query.side_effect = {inventory.Inventory: self.query_inventory}.__getitem__
+
+    def test__user_endpoint__inventory_trade__item_not_found(self):
+        self.query_inventory.get.return_value = None
+
+        expected_result = item_not_found
+        actual_result = inventory.trade({"element_uuid": "my-item", "target": "target-user"}, "user")
+
+        self.assertEqual(expected_result, actual_result)
+        self.query_inventory.get.assert_called_with("my-item")
+
+    def test__user_endpoint__inventory_trade__not_my_item(self):
+        item = mock.MagicMock()
+        item.owner = "someone-else"
+        self.query_inventory.get.return_value = item
+
+        expected_result = item_not_found
+        actual_result = inventory.trade({"element_uuid": "my-item", "target": "target-user"}, "user")
+
+        self.assertEqual(expected_result, actual_result)
+        self.query_inventory.get.assert_called_with("my-item")
+
+    def test__user_endpoint__inventory_trade__cannot_trade_with_yourself(self):
+        item = mock.MagicMock()
+        item.owner = "user"
+        self.query_inventory.get.return_value = item
+
+        expected_result = cannot_trade_with_yourself
+        actual_result = inventory.trade({"element_uuid": "my-item", "target": "user"}, "user")
+
+        self.assertEqual(expected_result, actual_result)
+        self.query_inventory.get.assert_called_with("my-item")
+
+    def test__user_endpoint__inventory_trade__user_uuid_does_not_exist(self):
+        item = mock.MagicMock()
+        item.owner = "user"
+        self.query_inventory.get.return_value = item
+        mock.m.check_user_uuid.return_value = False
+
+        expected_result = user_uuid_does_not_exist
+        actual_result = inventory.trade({"element_uuid": "my-item", "target": "target-user"}, "user")
+
+        self.assertEqual(expected_result, actual_result)
+        self.query_inventory.get.assert_called_with("my-item")
+        mock.m.check_user_uuid.assert_called_with("target-user")
+
+    def test__user_endpoint__inventory_trade__successful(self):
+        item = mock.MagicMock()
+        item.owner = "user"
+        self.query_inventory.get.return_value = item
+        mock.m.check_user_uuid.return_value = True
+
+        expected_result = success
+        actual_result = inventory.trade({"element_uuid": "my-item", "target": "target-user"}, "user")
+
+        self.assertEqual(expected_result, actual_result)
+        self.query_inventory.get.assert_called_with("my-item")
+        mock.m.check_user_uuid.assert_called_with("target-user")
+        self.assertEqual("target-user", item.owner)
+        mock.wrapper.session.commit.assert_called_with()
 
     def test__user_endpoint__inventory_list(self):
         elements = [mock.MagicMock() for _ in range(5)]

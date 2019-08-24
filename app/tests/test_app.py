@@ -2,7 +2,7 @@ from importlib import machinery, util
 from unittest import TestCase
 
 from mock.mock_loader import mock
-from schemes import shop_info, shop_buy
+from schemes import shop_info, shop_buy, trade_requirements
 
 
 def import_app(name: str = "app"):
@@ -42,6 +42,7 @@ class TestApp(TestCase):
         elements = [getattr(app, element_name) for element_name in dir(app)]
 
         expected_user_endpoints = [
+            (["inventory", "trade"], trade_requirements),
             (["inventory", "list"], {}),
             (["shop", "list"], {}),
             (["shop", "info"], shop_info),

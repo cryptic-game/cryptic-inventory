@@ -58,6 +58,7 @@ class TestApp(TestCase):
             ["inventory", "remove"],
             ["inventory", "list"],
             ["inventory", "delete_by_name"],
+            ["delete_user"],
         ]
 
         for path, requires in expected_user_endpoints:

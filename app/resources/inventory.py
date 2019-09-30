@@ -82,3 +82,13 @@ def delete_by_name(data: dict, microservice: str) -> dict:
     wrapper.session.commit()
 
     return success
+
+
+@m.microservice_endpoint(path=["delete_user"])
+def delete_user(data: dict, microservice: str) -> dict:
+    user: str = data["user_uuid"]
+
+    wrapper.session.query(Inventory).filter_by(owner=user).delete()
+    wrapper.session.commit()
+
+    return success

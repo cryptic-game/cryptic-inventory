@@ -171,3 +171,10 @@ class TestInventory(TestCase):
         self.query_inventory.filter_by().first.assert_called_with()
         mock.wrapper.session.delete.assert_called_with("item")
         mock.wrapper.session.commit.assert_called_with()
+
+    def test__ms_endpoint__delete_user(self):
+        self.assertEqual(success, inventory.delete_user({"user_uuid": "the-user"}, "server"))
+
+        self.query_inventory.filter_by.assert_called_with(owner="the-user")
+        self.query_inventory.filter_by().delete.assert_called_with()
+        mock.wrapper.session.commit.assert_called_with()

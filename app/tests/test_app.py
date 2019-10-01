@@ -2,6 +2,7 @@ from importlib import machinery, util
 from unittest import TestCase
 
 from mock.mock_loader import mock
+from resources import inventory, shop
 from schemes import shop_info, shop_buy, trade_requirements
 
 
@@ -45,31 +46,33 @@ class TestApp(TestCase):
         registered_ms_endpoints = mock.ms_endpoints.copy()
 
         expected_user_endpoints = [
-            (["inventory", "trade"], trade_requirements),
-            (["inventory", "list"], {}),
-            (["shop", "list"], {}),
-            (["shop", "info"], shop_info),
-            (["shop", "buy"], shop_buy),
+            (["inventory", "trade"], trade_requirements, inventory.trade),
+            (["inventory", "list"], {}, inventory.list_inventory),
+            (["shop", "list"], {}, shop.shop_list),
+            (["shop", "info"], shop_info, shop.shop_info),
+            (["shop", "buy"], shop_buy, shop.shop_buy),
         ]
 
         expected_ms_endpoints = [
-            ["inventory", "exists"],
-            ["inventory", "create"],
-            ["inventory", "remove"],
-            ["inventory", "list"],
-            ["inventory", "delete_by_name"],
-            ["delete_user"],
+            (["inventory", "exists"], inventory.exists),
+            (["inventory", "create"], inventory.create),
+            (["inventory", "remove"], inventory.remove),
+            (["inventory", "list"], inventory.ms_list),
+            (["inventory", "delete_by_name"], inventory.delete_by_name),
+            (["delete_user"], inventory.delete_user),
         ]
 
-        for path, requires in expected_user_endpoints:
+        for path, requires, func in expected_user_endpoints:
             self.assertIn((path, requires), registered_user_endpoints)
             registered_user_endpoints.remove((path, requires))
             self.assertIn(mock.user_endpoint_handlers[tuple(path)], elements)
+            self.assertEqual(func, mock.user_endpoint_handlers[tuple(path)])
 
-        for path in expected_ms_endpoints:
+        for path, func in expected_ms_endpoints:
             self.assertIn(path, registered_ms_endpoints)
             registered_ms_endpoints.remove(path)
             self.assertIn(mock.ms_endpoint_handlers[tuple(path)], elements)
+            self.assertEqual(func, mock.ms_endpoint_handlers[tuple(path)])
 
         self.assertFalse(registered_user_endpoints)
         self.assertFalse(registered_ms_endpoints)

@@ -35,7 +35,7 @@ If you only need a mysql-server you can bring it up with:
 
 ## Docker-Hub
 
-This microservice is online on docker-hub (https://hub.docker.com/r/useto/cryptic-inventory/).
+This microservice is online on docker-hub (https://hub.docker.com/r/crypticcp/cryptic-inventory/).
 
 ## API 
 

@@ -1,12 +1,9 @@
 import app
 
-
-# noinspection PyUnresolvedReferences
-def load_endpoints():
-    import resources.inventory
-    import resources.shop
-
-
 if __name__ == "__main__":
-    load_endpoints()
+    from resources.inventory import *
+    from resources.shop import *
+
+    app.wrapper.Base.metadata.create_all(bind=wrapper.engine)
+
     app.m.run()

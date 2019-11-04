@@ -65,7 +65,7 @@ class TestShop(TestCase):
         self.assertEqual(expected_result, actual_result)
 
     def test__user_endpoint__shop_info__successful(self):
-        expected_result = {"name": "ATX", "price": 100, "related_ms": "device"}
+        expected_result = {"name": "ATX", "price": game_info["items"]["ATX"]["price"], "related_ms": "device"}
         actual_result = shop.shop_info({"product": "ATX"}, "")
 
         self.assertEqual(expected_result, actual_result)
@@ -97,7 +97,7 @@ class TestShop(TestCase):
         actual_result = shop.shop_buy({"product": "ATX", "wallet_uuid": "test-wallet", "key": "wallet-key"}, "")
 
         self.assertEqual(expected_result, actual_result)
-        pay_shop_patch.assert_called_with("test-wallet", "wallet-key", 100, "ATX")
+        pay_shop_patch.assert_called_with("test-wallet", "wallet-key", game_info["items"]["ATX"]["price"], "ATX")
 
     @patch("resources.shop.Inventory")
     @patch("resources.shop.pay_shop")

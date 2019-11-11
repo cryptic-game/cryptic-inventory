@@ -53,7 +53,12 @@ class TestShop(TestCase):
         )
 
     def test__user_endpoint__shop_list(self):
-        expected_result = {"products": list(game_info["items"])}
+        items = game_info["items"]
+        expected_result = {
+            "products": [
+                {"name": name, "price": items[name]["price"], "related_ms": items[name]["related_ms"]} for name in items
+            ]
+        }
         actual_result = shop.shop_list({}, "")
 
         self.assertEqual(expected_result, actual_result)

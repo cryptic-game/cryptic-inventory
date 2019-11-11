@@ -26,7 +26,7 @@ def pay_shop(wallet: str, key: str, amount: int, product: str) -> dict:
 
 @m.user_endpoint(path=["shop", "list"], requires={})
 def shop_list(data: dict, user: str):
-    return {"products": list(game_info["items"])}
+    return {"products": [{"name": name, **item} for name, item in game_info["items"].items()]}
 
 
 @m.user_endpoint(path=["shop", "info"], requires=shop_info)

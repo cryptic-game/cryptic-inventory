@@ -2,6 +2,7 @@ from app import m
 from models.inventory import Inventory
 from schemes import *
 from vars import game_info
+from typing import List
 
 
 def exists_wallet(wallet: str) -> bool:
@@ -41,22 +42,27 @@ def shop_info(data: dict, user: str):
 
 @m.user_endpoint(path=["shop", "buy"], requires=shop_buy)
 def shop_buy(data: dict, user: str):
-    product: str = data["product"]
+    products: dict = data["products"]
     wallet_uuid: str = data["wallet_uuid"]
     key: str = data["key"]
 
-    if product not in game_info["items"]:
-        return item_not_found
+    for product in products:
+        if product not in game_info["items"]:
+            return item_not_found
 
     if not exists_wallet(wallet_uuid):
         return wallet_not_found
 
-    price: int = game_info["items"][product]["price"]
+    boughtProducts: List[dict] = []
 
-    response: dict = pay_shop(wallet_uuid, key, price, product)
-    if "error" in response:
-        return response
+    for product in products:
+        price: int = game_info["items"][product]["price"]
+        response: dict = pay_shop(wallet_uuid, key, price, product)
 
-    item: Inventory = Inventory.create(product, user, game_info["items"][product]["related_ms"])
+        if "error" in response:
+            return response
 
-    return item.serialize
+        item: Inventory = Inventory.create(product, user, game_info["items"][product]["related_ms"])
+        boughtProducts.append(item.serialize)
+
+    return boughtProducts

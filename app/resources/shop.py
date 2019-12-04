@@ -56,13 +56,15 @@ def shop_buy(data: dict, user: str):
     boughtProducts: List[dict] = []
 
     for product in products:
-        price: int = game_info["items"][product]["price"]
+        quantity: int = products[product]
+        price: int = game_info["items"][product]["price"] * quantity
         response: dict = pay_shop(wallet_uuid, key, price, product)
 
         if "error" in response:
             return response
 
-        item: Inventory = Inventory.create(product, user, game_info["items"][product]["related_ms"])
-        boughtProducts.append(item.serialize)
+        for _ in range(quantity):
+            item: Inventory = Inventory.create(product, user, game_info["items"][product]["related_ms"])
+            boughtProducts.append(item.serialize)
 
     return boughtProducts

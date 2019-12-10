@@ -54,17 +54,19 @@ def shop_buy(data: dict, user: str):
         return wallet_not_found
 
     boughtProducts: List[dict] = []
+    price: int = 0
 
     for product in products:
         quantity: int = products[product]
-        price: int = game_info["items"][product]["price"] * quantity
-        response: dict = pay_shop(wallet_uuid, key, price, product)
+        price += game_info["items"][product]["price"] * quantity
 
-        if "error" in response:
-            return response
+    response: dict = pay_shop(wallet_uuid, key, price, product)
 
-        for _ in range(quantity):
-            item: Inventory = Inventory.create(product, user, game_info["items"][product]["related_ms"])
-            boughtProducts.append(item.serialize)
+    if "error" in response:
+        return response
+
+    for _ in range(quantity):
+        item: Inventory = Inventory.create(product, user, game_info["items"][product]["related_ms"])
+        boughtProducts.append(item.serialize)
 
     return boughtProducts

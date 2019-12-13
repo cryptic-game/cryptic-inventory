@@ -35,7 +35,7 @@ class TestShop(TestCase):
 
         mock.MicroService().contact_microservice.return_value = expected_result
 
-        actual_result = shop.pay_shop("my-wallet", "wallet-key", 1337, "test-product")
+        actual_result = shop.pay_shop("my-wallet", "wallet-key", 1337, {"foo": 42, "bar": 1337})
 
         self.assertEqual(expected_result, actual_result)
         mock.MicroService().contact_microservice.assert_called_with(
@@ -48,7 +48,7 @@ class TestShop(TestCase):
                 "create_transaction": True,
                 "destination_uuid": "00000000-0000-0000-0000-000000000000",
                 "origin": 1,
-                "usage": "Payment for test-product",
+                "usage": "Payment for 42x foo, 1337x bar",
             },
         )
 
@@ -113,7 +113,7 @@ class TestShop(TestCase):
         actual_result = shop.shop_buy({"products": {"ATX": 1}, "wallet_uuid": "test-wallet", "key": "wallet-key"}, "")
 
         self.assertEqual(expected_result, actual_result)
-        pay_shop_patch.assert_called_with("test-wallet", "wallet-key", game_info["items"]["ATX"]["price"], "ATX")
+        pay_shop_patch.assert_called_with("test-wallet", "wallet-key", game_info["items"]["ATX"]["price"], {"ATX": 1})
 
     @patch("resources.shop.Inventory")
     @patch("resources.shop.pay_shop")
@@ -122,7 +122,7 @@ class TestShop(TestCase):
         exists_wallet_patch.return_value = True
         pay_shop_patch.return_value = {"success": True}
 
-        expected_result = inventory_patch.create().serialize
+        expected_result = {"bought_products": [inventory_patch.create().serialize]}
         actual_result = shop.shop_buy({"products": {"ATX": 1}, "wallet_uuid": "wallet", "key": "key"}, "the-user")
 
         self.assertEqual(expected_result, actual_result)

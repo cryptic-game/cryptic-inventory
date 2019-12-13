@@ -56,8 +56,13 @@ class TestShop(TestCase):
         items = game_info["items"]
         expected_result = {
             "products": [
-                {"name": name, "price": items[name]["price"], "related_ms": items[name]["related_ms"],
-                 "category": items[name]["category"]} for name in items
+                {
+                    "name": name,
+                    "price": items[name]["price"],
+                    "related_ms": items[name]["related_ms"],
+                    "category": items[name]["category"],
+                }
+                for name in items
             ]
         }
         actual_result = shop.shop_list({}, "")
@@ -71,8 +76,12 @@ class TestShop(TestCase):
         self.assertEqual(expected_result, actual_result)
 
     def test__user_endpoint__shop_info__successful(self):
-        expected_result = {"name": "ATX", "price": game_info["items"]["ATX"]["price"], "related_ms": "device",
-                           "category": "case"}
+        expected_result = {
+            "name": "ATX",
+            "price": game_info["items"]["ATX"]["price"],
+            "related_ms": "device",
+            "category": "case",
+        }
         actual_result = shop.shop_info({"product": "ATX"}, "")
 
         self.assertEqual(expected_result, actual_result)

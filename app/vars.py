@@ -1,20 +1,44 @@
+# Hinweis: Die Produktnamen müssen identisch mit der vars.py aus ms device sein.
 game_info: dict = {
     "items": {
-        "Zero MX One": {"price": 118000, "related_ms": "device", "category": "mainboard"},
-        "graphicUnit": {"price": 183000, "related_ms": "device", "category": "graphicUnit"},
-        "diskStorage": {"price": 35000, "related_ms": "device", "category": "diskStorage"},
-        "networkCard": {"price": 25000, "related_ms": "device", "category": "networkCard"},
-        "CoreOne A100": {"price": 75000, "related_ms": "device", "category": "cpu"},
-        "CoreOne A200": {"price": 120000, "related_ms": "device", "category": "cpu"},
-        "CPU Cooler Mini": {"price": 32000, "related_ms": "device", "category": "processorCooler"},
-        "Crossfire ZX100": {"price": 231000, "related_ms": "device", "category": "ram"},
-        "Crossfire ZX1000": {"price": 435000, "related_ms": "device", "category": "ram"},
-        "Forcevid MX1000": {"price": 447000, "related_ms": "device", "category": "gpu"},
-        "Zetta TX2066": {"price": 22000, "related_ms": "device", "category": "gpu"},
-        "HDD Elements Zero": {"price": 52000, "related_ms": "device", "category": "diskStorage"},
-        "Crossfire XSOne 250 Watt": {"price": 83000, "related_ms": "device", "category": "powerPack"},
-        "Mini-ITX": {"price": 143000, "related_ms": "device", "category": "case"},
-        "Mini-ATX": {"price": 137000, "related_ms": "device", "category": "case"},
-        "ATX": {"price": 103000, "related_ms": "device", "category": "case"},
+        # Mainboards
+        "Zero MX One": {"price": 0, "related_ms": "device", "category": "mainboard"},
+        "Zero MX Pro": {"price": 0, "related_ms": "device", "category": "mainboard"},
+        "Zetta Ultimate M150": {"price": 0, "related_ms": "device", "category": "mainboard"},
+        "Zeus Professional X2": {"price": 0, "related_ms": "device", "category": "mainboard"},
+        # Processor
+        "CoreOne A0": {"price": 0, "related_ms": "device", "category": "cpu"},
+        "CoreOne A110": {"price": 0, "related_ms": "device", "category": "cpu"},
+        "DualCore M101": {"price": 0, "related_ms": "device", "category": "cpu"},
+        "QuadCore TX": {"price": 0, "related_ms": "device", "category": "cpu"},
+        # CPU-Cooler
+        "CPU Cooler Mini": {"price": 0, "related_ms": "device", "category": "processorCooler"},
+        "CPU Cooler Plus": {"price": 0, "related_ms": "device", "category": "processorCooler"},
+        "CPU Cooler Pro": {"price": 0, "related_ms": "device", "category": "processorCooler"},
+        # RAM
+        "Crossfire One": {"price": 0, "related_ms": "device", "category": "ram"},
+        "Crossfire ZX0": {"price": 0, "related_ms": "device", "category": "ram"},
+        "Crossfire ZX110": {"price": 0, "related_ms": "device", "category": "ram"},
+        "Crossfire ZX120": {"price": 0, "related_ms": "device", "category": "ram"},
+        "Crossfire ZX200": {"price": 0, "related_ms": "device", "category": "ram"},
+        "Crossfire ZX210": {"price": 0, "related_ms": "device", "category": "ram"},
+        "Crossfire ZX220": {"price": 0, "related_ms": "device", "category": "ram"},
+        # Graphiccards
+        "Forcevid MX00": {"price": 0, "related_ms": "device", "category": "gpu"},
+        "Zetta TX2066": {"price": 0, "related_ms": "device", "category": "gpu"},
+        "Zetta TX2066 Pro": {"price": 0, "related_ms": "device", "category": "gpu"},
+        # Diskstorage
+        "HDD Elements Zero A": {"price": 0, "related_ms": "device", "category": "diskStorage"},
+        "HDD Elements Zero B": {"price": 0, "related_ms": "device", "category": "diskStorage"},
+        "HDD Elements Two": {"price": 0, "related_ms": "device", "category": "diskStorage"},
+        "SSD 20GB MX": {"price": 0, "related_ms": "device", "category": "diskStorage"},
+        "SSD 0GB M.2": {"price": 0, "related_ms": "device", "category": "diskStorage"},
+        # PowerPack
+        "Crossfire XSOne 250 Watt": {"price": 0, "related_ms": "device", "category": "powerPack"},
+        "Zeus X10 Pro": {"price": 0, "related_ms": "device", "category": "powerPack"},
+        # Case
+        "Mini-ITX": {"price": 0, "related_ms": "device", "category": "case"},
+        "Mini-ATX": {"price": 0, "related_ms": "device", "category": "case"},
+        "ATX": {"price": 0, "related_ms": "device", "category": "case"},
     }
 }

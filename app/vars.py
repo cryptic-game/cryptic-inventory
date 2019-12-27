@@ -2,43 +2,47 @@
 game_info: dict = {
     "items": {
         # Mainboards
-        "Zero MX One": {"price": 0, "related_ms": "device", "category": "mainboard"},
-        "Zero MX Pro": {"price": 0, "related_ms": "device", "category": "mainboard"},
-        "Zetta Ultimate M150": {"price": 0, "related_ms": "device", "category": "mainboard"},
-        "Zeus Professional X2": {"price": 0, "related_ms": "device", "category": "mainboard"},
+        "Zero MX One": {"price": 0, "related_ms": "device", "category": ["Mainboards", "Zero Socket"]},
+        "Zero MX Pro": {"price": 0, "related_ms": "device", "category": ["Mainboards", "Zero Socket"]},
+        "Zetta Ultimate M150": {"price": 0, "related_ms": "device", "category": ["Mainboards", "Zetta Socket"]},
+        "Zeus Professional X2": {"price": 0, "related_ms": "device", "category": ["Mainboards", "Zeus Socket"]},
+        "Zeus Professional X3": {"price": 0, "related_ms": "device", "category": ["Mainboards", "Zeus Socket"]},
         # Processor
-        "CoreOne A0": {"price": 0, "related_ms": "device", "category": "cpu"},
-        "CoreOne A110": {"price": 0, "related_ms": "device", "category": "cpu"},
-        "DualCore M101": {"price": 0, "related_ms": "device", "category": "cpu"},
-        "QuadCore TX": {"price": 0, "related_ms": "device", "category": "cpu"},
-        # CPU-Cooler
-        "CPU Cooler Mini": {"price": 0, "related_ms": "device", "category": "processorCooler"},
-        "CPU Cooler Plus": {"price": 0, "related_ms": "device", "category": "processorCooler"},
-        "CPU Cooler Pro": {"price": 0, "related_ms": "device", "category": "processorCooler"},
+        "CoreOne A100": {"price": 0, "related_ms": "device", "category": ["Processor", "1-Core"]},
+        "CoreOne A110": {"price": 0, "related_ms": "device", "category": ["Processor", "1-Core"]},
+        "DualCore M101": {"price": 0, "related_ms": "device", "category": ["Processor", "2-Core"]},
+        "QuadCore TX900": {"price": 0, "related_ms": "device", "category": ["Processor", "4-Core"]},
+        "QuadCore TX950": {"price": 0, "related_ms": "device", "category": ["Processor", "4-Core"]},
+        # Processor-Cooler
+        "CPU Cooler Mini": {"price": 0, "related_ms": "device", "category": ["Cooler", None]},
+        "CPU Cooler Plus": {"price": 0, "related_ms": "device", "category": ["Cooler", None]},
+        "CPU Cooler Pro": {"price": 0, "related_ms": "device", "category": ["Cooler", None]},
         # RAM
-        "Crossfire One": {"price": 0, "related_ms": "device", "category": "ram"},
-        "Crossfire ZX0": {"price": 0, "related_ms": "device", "category": "ram"},
-        "Crossfire ZX110": {"price": 0, "related_ms": "device", "category": "ram"},
-        "Crossfire ZX120": {"price": 0, "related_ms": "device", "category": "ram"},
-        "Crossfire ZX200": {"price": 0, "related_ms": "device", "category": "ram"},
-        "Crossfire ZX210": {"price": 0, "related_ms": "device", "category": "ram"},
-        "Crossfire ZX220": {"price": 0, "related_ms": "device", "category": "ram"},
-        # Graphiccards
-        "Forcevid MX00": {"price": 0, "related_ms": "device", "category": "gpu"},
-        "Zetta TX2066": {"price": 0, "related_ms": "device", "category": "gpu"},
-        "Zetta TX2066 Pro": {"price": 0, "related_ms": "device", "category": "gpu"},
-        # Diskstorage
-        "HDD Elements Zero A": {"price": 0, "related_ms": "device", "category": "diskStorage"},
-        "HDD Elements Zero B": {"price": 0, "related_ms": "device", "category": "diskStorage"},
-        "HDD Elements Two": {"price": 0, "related_ms": "device", "category": "diskStorage"},
-        "SSD 20GB MX": {"price": 0, "related_ms": "device", "category": "diskStorage"},
-        "SSD 0GB M.2": {"price": 0, "related_ms": "device", "category": "diskStorage"},
+        "Crossfire One": {"price": 0, "related_ms": "device", "category": ["RAM", "DDR1"]},
+        "Crossfire ZX100": {"price": 0, "related_ms": "device", "category": ["RAM", "DDR1"]},
+        "Crossfire ZX110": {"price": 0, "related_ms": "device", "category": ["RAM", "DDR1"]},
+        "Crossfire ZX120": {"price": 0, "related_ms": "device", "category": ["RAM", "DDR1"]},
+        "Crossfire ZX200": {"price": 0, "related_ms": "device", "category": ["RAM", "DDR2"]},
+        "Crossfire ZX210": {"price": 0, "related_ms": "device", "category": ["RAM", "DDR2"]},
+        "Crossfire ZX220": {"price": 0, "related_ms": "device", "category": ["RAM", "DDR3"]},
+        "Crossfire P50": {"price": 0, "related_ms": "device", "category": ["RAM", "DDR4"]},
+        "Crossfire P60": {"price": 0, "related_ms": "device", "category": ["RAM", "DDR4"]},
+        # Graphic cards
+        "Forcevid MX1000": {"price": 0, "related_ms": "device", "category": ["Graphic cards", "GDDR1"]},
+        "Zetta TX2066": {"price": 0, "related_ms": "device", "category": ["Graphic cards", "GDDR1"]},
+        "Zetta TX2066 Pro": {"price": 0, "related_ms": "device", "category": ["Graphic cards", "GDDR2"]},
+        # Disks
+        "HDD Elements Zero A": {"price": 0, "related_ms": "device", "category": ["Disks", "HDD"]},
+        "HDD Elements Zero B": {"price": 0, "related_ms": "device", "category": ["Disks", "HDD"]},
+        "HDD Elements Two": {"price": 0, "related_ms": "device", "category": ["Disks", "HDD"]},
+        "SSD 20GB MX": {"price": 0, "related_ms": "device", "category": ["Disks", "SSD"]},
+        "SSD 100GB M.2": {"price": 0, "related_ms": "device", "category": ["Disks", "M.2"]},
         # PowerPack
-        "Crossfire XSOne 250 Watt": {"price": 0, "related_ms": "device", "category": "powerPack"},
-        "Zeus X10 Pro": {"price": 0, "related_ms": "device", "category": "powerPack"},
+        "Crossfire XSOne 300 Watt": {"price": 0, "related_ms": "device", "category": ["Power pack", None]},
+        "Zeus X10 Pro": {"price": 0, "related_ms": "device", "category": ["Power pack", None]},
         # Case
-        "Mini-ITX": {"price": 0, "related_ms": "device", "category": "case"},
-        "Mini-ATX": {"price": 0, "related_ms": "device", "category": "case"},
-        "ATX": {"price": 0, "related_ms": "device", "category": "case"},
+        "Mini-ITX": {"price": 0, "related_ms": "device", "category": ["Case", None]},
+        "Mini-ATX": {"price": 0, "related_ms": "device", "category": ["Case", None]},
+        "ATX": {"price": 0, "related_ms": "device", "category": ["Case", None]},
     }
 }

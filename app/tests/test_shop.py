@@ -80,7 +80,7 @@ class TestShop(TestCase):
             "name": "ATX",
             "price": game_info["items"]["ATX"]["price"],
             "related_ms": "device",
-            "category": "case",
+            "category": ["Case", None],
         }
         actual_result = shop.shop_info({"product": "ATX"}, "")
 

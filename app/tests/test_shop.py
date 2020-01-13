@@ -52,19 +52,9 @@ class TestShop(TestCase):
             },
         )
 
-    def test__user_endpoint__shop_list(self):
-        items = game_info["items"]
-        expected_result = {
-            "products": [
-                {
-                    "name": name,
-                    "price": items[name]["price"],
-                    "related_ms": items[name]["related_ms"],
-                    "category": items[name]["category"],
-                }
-                for name in items
-            ]
-        }
+    @patch("resources.shop.shop_categories")
+    def test__user_endpoint__shop_list(self, categories_patch):
+        expected_result = {"categories": categories_patch}
         actual_result = shop.shop_list({}, "")
 
         self.assertEqual(expected_result, actual_result)

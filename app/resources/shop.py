@@ -1,7 +1,7 @@
 from app import m
 from models.inventory import Inventory
 from schemes import *
-from vars import game_info
+from vars import game_info, shop_categories
 from typing import List, Dict
 
 
@@ -28,7 +28,7 @@ def pay_shop(wallet: str, key: str, amount: int, products: Dict[str, int]) -> di
 
 @m.user_endpoint(path=["shop", "list"], requires={})
 def shop_list(data: dict, user: str):
-    return {"products": [{"name": name, **item} for name, item in game_info["items"].items()]}
+    return {"categories": shop_categories}
 
 
 @m.user_endpoint(path=["shop", "info"], requires=shop_info)

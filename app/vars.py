@@ -47,3 +47,14 @@ game_info: dict = {
         "ATX": {"price": 202_000, "related_ms": "device", "category": ["Case", None]},
     }
 }
+
+shop_categories: dict = {}
+for name, item in game_info["items"].items():
+    category_name, subcategory_name = item["category"]
+    category = shop_categories.setdefault(category_name, {"items": {}, "categories": {}})
+    if subcategory_name is None:
+        category["items"][name] = {k: v for k, v in item.items() if k != "category"}
+        continue
+
+    subcategory = category["categories"].setdefault(subcategory_name, {"items": {}, "categories": {}})
+    subcategory["items"][name] = {k: v for k, v in item.items() if k != "category"}

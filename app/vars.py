@@ -1,5 +1,6 @@
 # The product names must match those from the vars.py of cryptic-device.
 # Prices are given in milli morphcoins!
+
 game_info: dict = {
     "items": {
         # Mainboards
@@ -48,13 +49,32 @@ game_info: dict = {
     }
 }
 
+CATEGORY_ORDER = [
+    ("Mainboards", ["Zero Socket", "Zetta Socket", "Zeus Socket"]),
+    ("Processor", ["1-Core", "2-Core", "4-Core"]),
+    ("Cooler", []),
+    ("RAM", ["DDR1", "DDR2", "DDR3", "DDR4"]),
+    ("Graphic cards", ["GDDR1", "GDDR2"]),
+    ("Disks", ["HDD", "SSD", "M.2"]),
+    ("Power pack", []),
+    ("Case", []),
+]
 shop_categories: dict = {}
+for i, (category, subcategories) in enumerate(CATEGORY_ORDER):
+    shop_categories[category] = {
+        "items": {},
+        "index": i,
+        "categories": {},
+    }
+    for j, subcategory in enumerate(subcategories):
+        shop_categories[category]["categories"][subcategory] = {"items": {}, "index": j, "categories": {}}
+
 for name, item in game_info["items"].items():
     category_name, subcategory_name = item["category"]
-    category = shop_categories.setdefault(category_name, {"items": {}, "categories": {}})
+    category = shop_categories[category_name]
     if subcategory_name is None:
         category["items"][name] = {k: v for k, v in item.items() if k != "category"}
         continue
 
-    subcategory = category["categories"].setdefault(subcategory_name, {"items": {}, "categories": {}})
+    subcategory = category["categories"][subcategory_name]
     subcategory["items"][name] = {k: v for k, v in item.items() if k != "category"}

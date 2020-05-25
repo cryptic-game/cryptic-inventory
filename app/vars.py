@@ -49,9 +49,9 @@ game_info: dict = {
                                      "category": ["Power pack", None]},
         "Zeus X10 Pro": {"id": 701, "price": 124_000, "related_ms": "device", "category": ["Power pack", None]},
         # Case
-        "Mini-ITX": {"price": 145_000, "related_ms": "device", "category": ["Case", None]},
-        "Mini-ATX": {"price": 185_000, "related_ms": "device", "category": ["Case", None]},
-        "ATX": {"price": 202_000, "related_ms": "device", "category": ["Case", None]},
+        "Mini-ITX": {"id": 800, "price": 145_000, "related_ms": "device", "category": ["Case", None]},
+        "Mini-ATX": {"id": 801, "price": 185_000, "related_ms": "device", "category": ["Case", None]},
+        "ATX": {"id": 802, "price": 202_000, "related_ms": "device", "category": ["Case", None]},
     }
 }
 

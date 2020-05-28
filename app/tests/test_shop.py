@@ -67,6 +67,7 @@ class TestShop(TestCase):
 
     def test__user_endpoint__shop_info__successful(self):
         expected_result = {
+            "id": 802,
             "name": "ATX",
             "price": game_info["items"]["ATX"]["price"],
             "related_ms": "device",

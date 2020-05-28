@@ -6,12 +6,24 @@ game_info: dict = {
         # Mainboards
         "Zero MX One": {"id": 100, "price": 85_000, "related_ms": "device", "category": ["Mainboards", "Zero Socket"]},
         "Zero MX Pro": {"id": 101, "price": 96_000, "related_ms": "device", "category": ["Mainboards", "Zero Socket"]},
-        "Zetta Ultimate M150": {"id": 102, "price": 109_000, "related_ms": "device",
-                                "category": ["Mainboards", "Zetta Socket"]},
-        "Zeus Professional X2": {"id": 103, "price": 160_000, "related_ms": "device",
-                                 "category": ["Mainboards", "Zeus Socket"]},
-        "Zeus Professional X3": {"id": 104, "price": 190_000, "related_ms": "device",
-                                 "category": ["Mainboards", "Zeus Socket"]},
+        "Zetta Ultimate M150": {
+            "id": 102,
+            "price": 109_000,
+            "related_ms": "device",
+            "category": ["Mainboards", "Zetta Socket"],
+        },
+        "Zeus Professional X2": {
+            "id": 103,
+            "price": 160_000,
+            "related_ms": "device",
+            "category": ["Mainboards", "Zeus Socket"],
+        },
+        "Zeus Professional X3": {
+            "id": 104,
+            "price": 190_000,
+            "related_ms": "device",
+            "category": ["Mainboards", "Zeus Socket"],
+        },
         # Processor
         "CoreOne A100": {"id": 200, "price": 140_000, "related_ms": "device", "category": ["Processor", "1-Core"]},
         "CoreOne A110": {"id": 201, "price": 152_000, "related_ms": "device", "category": ["Processor", "1-Core"]},
@@ -33,11 +45,19 @@ game_info: dict = {
         "Crossfire P50": {"id": 407, "price": 200_000, "related_ms": "device", "category": ["RAM", "DDR4"]},
         "Crossfire P60": {"id": 408, "price": 210_000, "related_ms": "device", "category": ["RAM", "DDR4"]},
         # Graphic cards
-        "Forcevid MX1000": {"id": 500, "price": 164_000, "related_ms": "device",
-                            "category": ["Graphic cards", "GDDR1"]},
+        "Forcevid MX1000": {
+            "id": 500,
+            "price": 164_000,
+            "related_ms": "device",
+            "category": ["Graphic cards", "GDDR1"],
+        },
         "Zetta TX2066": {"id": 501, "price": 208_000, "related_ms": "device", "category": ["Graphic cards", "GDDR1"]},
-        "Zetta TX2066 Pro": {"id": 502, "price": 265_000, "related_ms": "device",
-                             "category": ["Graphic cards", "GDDR2"]},
+        "Zetta TX2066 Pro": {
+            "id": 502,
+            "price": 265_000,
+            "related_ms": "device",
+            "category": ["Graphic cards", "GDDR2"],
+        },
         # Disks
         "HDD Elements Zero A": {"id": 600, "price": 88_000, "related_ms": "device", "category": ["Disks", "HDD"]},
         "HDD Elements Zero B": {"id": 601, "price": 94_000, "related_ms": "device", "category": ["Disks", "HDD"]},
@@ -45,8 +65,12 @@ game_info: dict = {
         "SSD 20GB MX": {"id": 603, "price": 238_000, "related_ms": "device", "category": ["Disks", "SSD"]},
         "SSD 100GB M.2": {"id": 604, "price": 372_000, "related_ms": "device", "category": ["Disks", "M.2"]},
         # PowerPack
-        "Crossfire XSOne 500 Watt": {"id": 700, "price": 98_000, "related_ms": "device",
-                                     "category": ["Power pack", None]},
+        "Crossfire XSOne 500 Watt": {
+            "id": 700,
+            "price": 98_000,
+            "related_ms": "device",
+            "category": ["Power pack", None],
+        },
         "Zeus X10 Pro": {"id": 701, "price": 124_000, "related_ms": "device", "category": ["Power pack", None]},
         # Case
         "Mini-ITX": {"id": 800, "price": 145_000, "related_ms": "device", "category": ["Case", None]},

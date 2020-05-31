@@ -150,6 +150,16 @@ class TestInventory(TestCase):
         self.assertEqual(expected_result, actual_result)
         self.query_inventory.filter_by.assert_called_with(owner="the-owner")
 
+    def test__ms_endpoint__inventory_summary(self):
+        elements = ["a", "b", "a", "c", "c", "d", "a", "b", "x", "y", "x", "b", "a"]
+        self.query_inventory.filter_by.return_value = [mock.MagicMock(element_name=e) for e in elements]
+
+        expected_result = {"elements": {"a": 4, "b": 3, "c": 2, "d": 1, "x": 2, "y": 1}}
+        actual_result = inventory.summary({"owner": "the-owner"}, "")
+
+        self.assertEqual(expected_result, actual_result)
+        self.query_inventory.filter_by.assert_called_with(owner="the-owner")
+
     def test__ms_endpoint__inventory_delete_by_name__item_not_found(self):
         self.query_inventory.filter_by().first.return_value = None
 

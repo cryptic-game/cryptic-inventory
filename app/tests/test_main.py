@@ -63,6 +63,7 @@ class TestApp(TestCase):
             (["inventory", "create"], inventory.create),
             (["inventory", "remove"], inventory.remove),
             (["inventory", "list"], inventory.ms_list),
+            (["inventory", "summary"], inventory.summary),
             (["inventory", "delete_by_name"], inventory.delete_by_name),
             (["delete_user"], inventory.delete_user),
         ]

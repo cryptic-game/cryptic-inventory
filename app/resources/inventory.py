@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Dict
 
 from app import m, wrapper
 from models.inventory import Inventory
@@ -67,6 +67,14 @@ def ms_list(data: dict, microservice: str) -> dict:
     return {
         "elements": [element.serialize for element in wrapper.session.query(Inventory).filter_by(owner=data["owner"])]
     }
+
+
+@m.microservice_endpoint(path=["inventory", "summary"])
+def summary(data: dict, microservice: str) -> dict:
+    out: Dict[str, int] = {}
+    for element in wrapper.session.query(Inventory).filter_by(owner=data["owner"]):  # type: Inventory
+        out[element.element_name] = out.get(element.element_name, 0) + 1
+    return {"elements": out}
 
 
 @m.microservice_endpoint(path=["inventory", "delete_by_name"])
